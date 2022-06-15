@@ -1,0 +1,39 @@
+{
+  "name": "cloudflare-workers-node-compat",
+  "version": "0.0.2",
+  "sideEffects": true,
+  "devDependencies": {
+    "@types/resolve": "^1.20.2",
+    "esbuild": "^0.14.43"
+  },
+  "type": "module",
+  "files": [
+    "build/*.mjs",
+    "modules/*/build/*.mjs",
+    "modules/*/types.d.ts"
+  ],
+  "exports": {
+    "./fs": "./modules/fs/build/mod-cf.mjs",
+    "./process": "./modules/process/build/mod-cf.mjs",
+    "./string_decoder": "./modules/string_decoder/build/mod-cf.mjs",
+    "./timers": "./modules/timers/build/mod-cf.mjs",
+    "./tty": "./modules/tty/build/mod-cf.mjs",
+    "./util": "./modules/util/build/mod-cf.mjs",
+    "./deno-worker-compat": "./build/deno-worker-compat.mjs",
+    "./aliases": "./aliases.mjs"
+  },
+  "dependencies": {
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
+    "console-browserify": "^1.2.0",
+    "crypto-browserify": "^3.12.0",
+    "events": "^3.3.0",
+    "import-meta-resolve": "^2.0.3",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "qs": "^6.10.5",
+    "resolve": "^1.22.0",
+    "stream-browserify": "^3.0.0",
+    "url-shim": "^1.0.1"
+  }
+}
