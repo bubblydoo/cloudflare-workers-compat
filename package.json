@@ -1,10 +1,11 @@
 {
   "name": "cloudflare-workers-node-compat",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "sideEffects": true,
   "devDependencies": {
     "@types/resolve": "^1.20.2",
-    "esbuild": "^0.14.43"
+    "esbuild": "^0.14.43",
+    "resolve": "^1.22.0"
   },
   "type": "module",
   "files": [
@@ -20,6 +21,7 @@
     "./tty": "./modules/tty/build/mod-cf.mjs",
     "./util": "./modules/util/build/mod-cf.mjs",
     "./deno-worker-compat": "./build/deno-worker-compat.mjs",
+    "./esbuild-define": "./esbuild-define.mjs",
     "./aliases": "./aliases.mjs"
   },
   "dependencies": {
@@ -28,11 +30,9 @@
     "console-browserify": "^1.2.0",
     "crypto-browserify": "^3.12.0",
     "events": "^3.3.0",
-    "import-meta-resolve": "^2.0.3",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "qs": "^6.10.5",
-    "resolve": "^1.22.0",
     "stream-browserify": "^3.0.0",
     "url-shim": "^1.0.1"
   }
