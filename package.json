@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-workers-node-compat",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "sideEffects": true,
   "devDependencies": {
     "@types/resolve": "^1.20.2",
@@ -11,7 +11,9 @@
   "files": [
     "build/*.mjs",
     "modules/*/build/*.mjs",
-    "modules/*/types.d.ts"
+    "modules/*/types.d.ts",
+    "esbuild-define.mjs",
+    "aliases.mjs"
   ],
   "exports": {
     "./fs": "./modules/fs/build/mod-cf.mjs",
