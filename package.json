@@ -1,16 +1,11 @@
 {
   "name": "cloudflare-workers-node-compat",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "sideEffects": true,
-  "devDependencies": {
-    "@types/resolve": "^1.20.2",
-    "esbuild": "^0.14.45",
-    "esbuild-plugin-alias": "^0.2.1",
-    "resolve": "^1.22.0",
-    "webpack": "^5.73.0",
-    "wrangler": "^2.0.14"
-  },
   "type": "module",
+  "scripts": {
+    "build": "make"
+  },
   "files": [
     "build/*.mjs",
     "modules/*/build/*.mjs",
@@ -44,5 +39,13 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url-shim": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/resolve": "^1.20.2",
+    "esbuild": "^0.14.45",
+    "esbuild-plugin-alias": "^0.2.1",
+    "resolve": "^1.22.0",
+    "webpack": "^5.73.0",
+    "wrangler": "^2.0.14"
   }
 }
