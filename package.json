@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-workers-node-compat",
   "version": "0.0.7",
-  "sideEffects": true,
+  "sideEffects": false,
   "type": "module",
   "scripts": {
     "build": "make"
