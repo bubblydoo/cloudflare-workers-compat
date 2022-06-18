@@ -1,20 +1,28 @@
 const workerDeno_build = {
   os: "linux",
-  arch: "aarch64"
-}
+  arch: "aarch64",
+};
 
 const workerDeno_env = {
   get: (name: string) => {
-    console.warn(`Called Deno.env.get("${name}"), but this is not available in deno-worker-compat`);
+    console.warn(
+      `Called Deno.env.get("${name}"), but this is not available in deno-worker-compat`
+    );
   },
   set: (name: string, value: string) => {
-    console.warn(`Called Deno.env.set("${name}", ${JSON.stringify(value)}), but this is not available in deno-worker-compat`);
+    console.warn(
+      `Called Deno.env.set("${name}", ${JSON.stringify(
+        value
+      )}), but this is not available in deno-worker-compat`
+    );
   },
   toObject: () => {
-    console.warn(`Called Deno.env.toObject(), but this is not available in deno-worker-compat. Returning empty object`);
+    console.warn(
+      `Called Deno.env.toObject(), but this is not available in deno-worker-compat. Returning empty object`
+    );
     return {};
-  }
-}
+  },
+};
 
 const workerDeno_inspect = (value: any) => JSON.stringify(value);
 
@@ -41,14 +49,14 @@ const workerDeno_errors = {
   BadResource: class BadResource extends Error {},
   Http: class Http extends Error {},
   Busy: class Busy extends Error {},
-}
+};
 
 const workerGlobal_process = {
-  title: 'cloudflare-worker',
+  title: "cloudflare-worker",
   browser: true,
   env: {},
   argv: [],
-  version: '', // empty string to avoid regexp issue
+  version: "", // empty string to avoid regexp issue
   versions: {},
 
   on: () => {},
@@ -61,34 +69,102 @@ const workerGlobal_process = {
   prependListener: () => {},
   prependOnceListener: () => {},
 
-  listeners: (name: string) => { return [] },
+  listeners: (name: string) => {
+    return [];
+  },
 
   binding: function (name: string) {
-    throw new Error('process.binding is not supported');
+    throw new Error("process.binding is not supported");
   },
 
-  cwd: function () { return '/' },
-  chdir: function (dir) {
-    throw new Error('process.chdir is not supported');
+  cwd: function () {
+    return "/";
   },
-  umask: function() { return 0; },
-}
+  chdir: function (dir) {
+    throw new Error("process.chdir is not supported");
+  },
+  umask: function () {
+    return 0;
+  },
+  nextTick: function () {},
+};
 
 function workerConst_processClass() {
   Object.assign(this, workerGlobal_process);
 }
 
 const workerGlobal_addEventListener = (name: string) => {
-  console.warn(`Called globalThis.addEventListener("${name}", ...) but this is not available in deno-worker-compat`);
-}
+  console.warn(
+    `Called globalThis.addEventListener("${name}", ...) but this is not available in deno-worker-compat`
+  );
+};
 
 const workerGlobal_removeEventListener = (name: string) => {
-  console.warn(`Called globalThis.removeEventListener("${name}", ...) but this is not available in deno-worker-compat`);
-}
+  console.warn(
+    `Called globalThis.removeEventListener("${name}", ...) but this is not available in deno-worker-compat`
+  );
+};
 
 const workerDeno_stat = () => Promise.resolve({ isFile: false });
 
 const workerDeno_mainModule = "file:///cloudflare-worker.js";
+
+// from deno/std/node/events
+const workerDeno_core = {
+  setNextTickCallback: undefined,
+  evalContext(_code: string, _filename: string) {
+    throw new Error(
+      "Called Deno.core.evalContext(...) but this is not available in deno-worker-compat"
+    );
+  },
+  encode(chunk: string) {
+    return new TextEncoder().encode(chunk);
+  },
+};
+
+const workerDeno_pid = 1;
+
+const workerDeno_cwd = () => "/cloudflare-worer";
+
+const workerDeno_chdir = (dir: string) => {
+  console.warn(
+    `Called Deno.chdir("${dir}"), but this is not available in deno-worker-compat.`
+  );
+};
+
+const workerDeno_chown = (dir: string) => {
+  console.warn(
+    `Called Deno.chown("${dir}", ...), but this is not available in deno-worker-compat.`
+  );
+};
+
+const workerDeno_chmod = (dir: string) => {
+  console.warn(
+    `Called Deno.chmod("${dir}", ...), but this is not available in deno-worker-compat.`
+  );
+};
+
+const workerDeno_isatty = (rid: number) => {
+  console.warn(
+    `Called Deno.isatty(${rid}), but this is not available in deno-worker-compat.`
+  );
+  return false;
+};
+
+const workerDeno_version = {
+  deno: "0.144.0-cloudflare-worker",
+};
+
+const workerDeno_memoryUsage = () => ({
+  external: 0,
+  heapTotal: 0,
+  heapUsed: 0,
+  rss: 0,
+});
+
+const workerDeno_stdin = null;
+const workerDeno_stdout = null;
+const workerDeno_stderr = null;
 
 export {
   workerDeno_build,
@@ -99,6 +175,18 @@ export {
   workerDeno_stat,
   workerDeno_errors,
   workerDeno_mainModule,
+  workerDeno_core,
+  workerDeno_pid,
+  workerDeno_cwd,
+  workerDeno_chdir,
+  workerDeno_version,
+  workerDeno_isatty,
+  workerDeno_memoryUsage,
+  workerDeno_chown,
+  workerDeno_chmod,
+  workerDeno_stdin,
+  workerDeno_stdout,
+  workerDeno_stderr,
   workerGlobal_process,
   workerConst_processClass,
   workerGlobal_addEventListener,

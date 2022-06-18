@@ -26,7 +26,7 @@ Shims are included for:
 - `buffer` (through `buffer`)
 - `console` (through `console-browserify`)
 - `crypto` (through `crypto-browserify`)
-- `events` (through `events`)
+- `events` (through `https://deno.land/std/node/events.ts`)
 - `fs` (empty object)
 - `os` (through `os-browserify/browser`)
 - `path` (through `path-browserify`)

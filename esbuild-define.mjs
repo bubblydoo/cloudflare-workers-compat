@@ -7,9 +7,24 @@ const define = {
   "Deno.stat": "workerDeno_stat",
   "Deno.errors": "workerDeno_errors",
   "Deno.mainModule": "workerDeno_mainModule",
+  "Deno.core": "workerDeno_core",
+  "Deno.pid": "workerDeno_pid",
+  "Deno.chdir": "workerDeno_chdir",
+  "Deno.cwd": "workerDeno_cwd",
+  "Deno.version": "workerDeno_version",
+  "Deno.isatty": "workerDeno_isatty",
+  "Deno.memoryUsage": "workerDeno_memoryUsage",
+  "Deno.chown": "workerDeno_chown",
+  "Deno.chmod": "workerDeno_chmod",
+  "Deno.stdin": "workerDeno_stdin",
+  "Deno.stdout": "workerDeno_stdout",
+  "Deno.stderr": "workerDeno_stderr",
   "Process": "workerConst_processClass",
   "globalThis.addEventListener": "workerGlobal_addEventListener",
-  "globalThis.removeEventListener": "workerGlobal_removeEventListener"
+  "globalThis.removeEventListener": "workerGlobal_removeEventListener",
+  "global.process": "workerGlobal_process",
+  "process": "workerGlobal_process",
+  "global": "globalThis",
 }
 
 export default define;

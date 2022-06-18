@@ -18,8 +18,7 @@ try {
     outfile: path.join(__dirname, "build", "mod-cf.mjs"),
     outExtension: { ".js": ".mjs" },
     inject: [
-      "../../deno-worker-compat.ts",
-      "./deno-globalthis.ts"
+      "../../deno-worker-compat.ts"
     ],
     define
   });
