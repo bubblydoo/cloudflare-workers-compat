@@ -11,7 +11,7 @@ It also includes shims for Deno, in case you want to use a Deno module in a Clou
 Next to that `eval` and `new Function` are also replaced with warning functions.
 
 ```bash
-npm i -D cloudflare-workers-compat
+npm i cloudflare-workers-compat # do not install as a dev dependency
 ```
 
 To use it, use esbuild:
