@@ -1,0 +1,22 @@
+export default {
+  "Deno.build": "workerDeno_build",
+  "Deno.env": "workerDeno_env",
+  "Deno.inspect": "workerDeno_inspect",
+  "Deno.args": "workerDeno_args",
+  "Deno.execPath": "workerDeno_execPath",
+  "Deno.stat": "workerDeno_stat",
+  "Deno.errors": "workerDeno_errors",
+  "Deno.mainModule": "workerDeno_mainModule",
+  "Deno.core": "workerDeno_core",
+  "Deno.pid": "workerDeno_pid",
+  "Deno.chdir": "workerDeno_chdir",
+  "Deno.cwd": "workerDeno_cwd",
+  "Deno.version": "workerDeno_version",
+  "Deno.isatty": "workerDeno_isatty",
+  "Deno.memoryUsage": "workerDeno_memoryUsage",
+  "Deno.chown": "workerDeno_chown",
+  "Deno.chmod": "workerDeno_chmod",
+  "Deno.stdin": "workerDeno_stdin",
+  "Deno.stdout": "workerDeno_stdout",
+  "Deno.stderr": "workerDeno_stderr"
+}

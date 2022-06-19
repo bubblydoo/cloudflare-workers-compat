@@ -1,29 +1,31 @@
 {
   "name": "cloudflare-workers-node-compat",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "sideEffects": false,
   "type": "module",
   "scripts": {
     "build": "make"
   },
   "files": [
-    "build/*.mjs",
-    "modules/*/build/*.mjs",
-    "modules/*/types.d.ts",
-    "esbuild-define.mjs",
-    "aliases.mjs"
+    "build/",
+    "lib/node-builtin-modules/*/dist/mod-cf.mjs"
   ],
   "exports": {
-    "./events": "./modules/events/build/mod-cf.mjs",
-    "./fs": "./modules/fs/build/mod-cf.mjs",
-    "./process": "./modules/process/build/mod-cf.mjs",
-    "./string_decoder": "./modules/string_decoder/build/mod-cf.mjs",
-    "./timers": "./modules/timers/build/mod-cf.mjs",
-    "./tty": "./modules/tty/build/mod-cf.mjs",
-    "./util": "./modules/util/build/mod-cf.mjs",
-    "./deno-worker-compat": "./build/deno-worker-compat.mjs",
-    "./esbuild-define": "./esbuild-define.mjs",
-    "./aliases": "./aliases.mjs"
+    "./events": "./lib/node-builtin-modules/events/dist/mod-cf.mjs",
+    "./fs": "./lib/node-builtin-modules/fs/dist/mod-cf.mjs",
+    "./process": "./lib/node-builtin-modules/process/dist/mod-cf.mjs",
+    "./string_decoder": "./lib/node-builtin-modules/string_decoder/dist/mod-cf.mjs",
+    "./timers": "./lib/node-builtin-modules/timers/dist/mod-cf.mjs",
+    "./tty": "./lib/node-builtin-modules/tty/dist/mod-cf.mjs",
+    "./util": "./lib/node-builtin-modules/util/dist/mod-cf.mjs",
+    "./bundler-config": {
+      "default": "./build/bundler-config.js",
+      "types": "./build/bundler-config.d.ts"
+    },
+    "./esbuild": {
+      "default": "./build/bundler-helpers/esbuild/index.js",
+      "types": "./build/bundler-helpers/esbuild/index.d.ts"
+    }
   },
   "dependencies": {
     "assert": "^2.0.0",
@@ -38,13 +40,15 @@
     "qs": "^6.10.5",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
+    "tslib": "^2.4.0",
     "url-shim": "^1.0.1"
   },
   "devDependencies": {
     "@types/resolve": "^1.20.2",
-    "esbuild": "^0.14.45",
+    "esbuild": "^0.14.46",
     "esbuild-plugin-alias": "^0.2.1",
     "resolve": "^1.22.0",
+    "typescript": "^4.7.4",
     "webpack": "^5.73.0",
     "wrangler": "^2.0.14"
   }

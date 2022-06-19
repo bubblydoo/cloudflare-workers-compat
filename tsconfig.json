@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "es2022",
+    "target": "es2022",
+    "outDir": "build",
+    "moduleResolution": "node16",
+    "declaration": true,
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "lib/node-globals/**/*",
+    "lib/deno-object-attributes/**/*",
+    "lib/deno-object/**/*",
+    "lib/deno-globals/**/*",
+    "lib/worker-incompatibles/**/*",
+    "bundler-config.ts",
+    "warn-or-throw-incompatible.ts",
+    "bundler-helpers/**/*"
+  ]
+}

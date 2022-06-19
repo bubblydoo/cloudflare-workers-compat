@@ -1,4 +1,4 @@
-# Cloudflare Workers Node Compat
+# Cloudflare Workers Compat
 
 This module is highly experimental, and incomplete.
 
@@ -6,17 +6,34 @@ The goal is to provide shim modules for every builtin Node module, so that you c
 
 It compiles Deno's node compatibility layer to modules that are Cloudflare Workers-compatible, or uses other browser-compatible modules.
 
+It also includes shims for Deno, in case you want to use a Deno module in a Cloudflare Worker (e.g. [@bubblydoo/cloudflare-workers-postgres-client](https://github.com/bubblydoo/cloudflare-workers-postgres-client)).
+
+Next to that `eval` and `new Function` are also replaced with warning functions.
+
 To use it, use esbuild:
 
 ```ts
 // build.mjs
 
 import alias from "esbuild-plugin-alias";
-import { suggestedAliases } from "cloudflare-workers-node-compat/aliases";
+import bundlerConfig from "cloudflare-workers-compat/bundler-config";
+import { outputReplacesPlugin, aliasPlugin } from "cloudflare-workers-compat/esbuild;
+
+const compatConfig = await bundlerConfig({
+  nodeBuiltinModules: true, // replaces node builtins like `assert`, `util`, ...
+  nodeGlobals: true, // replaces Node globals like `global`
+  workerIncompatibles: true // replaces `eval` and `new Function` with warning functions
+});
 
 await build({
   ...,
-  plugins: [alias(suggestedAliases)]
+  metafile: true,
+  define: compatConfig.define,
+  inject: compatConfig.inject,
+  plugins: [
+    aliasPlugin(compatConfig.aliases),
+    outputReplacesPlugin(compatConfig.replaces)
+  ]
 });
 ```
 
