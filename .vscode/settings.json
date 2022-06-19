@@ -3,8 +3,9 @@
   "deno.lint": true,
   "deno.unstable": true,
   "deno.enablePaths": [
-    "./modules/util/mod.ts",
-    "./modules/tty/mod.ts",
-    "./modules/string_decoder/mod.ts",
+    "./lib/node-builtin-modules/events/mod.ts",
+    "./lib/node-builtin-modules/string_decoder/mod.ts",
+    "./lib/node-builtin-modules/tty/mod.ts",
+    "./lib/node-builtin-modules/util/mod.ts"
   ]
 }
