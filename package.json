@@ -1,10 +1,11 @@
 {
-  "name": "cloudflare-workers-node-compat",
-  "version": "0.1.0",
+  "name": "cloudflare-workers-compat",
+  "version": "0.1.2",
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "make"
+    "build": "make",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "build/",

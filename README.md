@@ -10,6 +10,10 @@ It also includes shims for Deno, in case you want to use a Deno module in a Clou
 
 Next to that `eval` and `new Function` are also replaced with warning functions.
 
+```bash
+npm i -D cloudflare-workers-compat
+```
+
 To use it, use esbuild:
 
 ```ts
@@ -17,7 +21,7 @@ To use it, use esbuild:
 
 import alias from "esbuild-plugin-alias";
 import bundlerConfig from "cloudflare-workers-compat/bundler-config";
-import { outputReplacesPlugin, aliasPlugin } from "cloudflare-workers-compat/esbuild;
+import { outputReplacesPlugin, aliasPlugin } from "cloudflare-workers-compat/esbuild";
 
 const compatConfig = await bundlerConfig({
   nodeBuiltinModules: true, // replaces node builtins like `assert`, `util`, ...

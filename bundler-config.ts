@@ -29,14 +29,14 @@ const nodeBuiltinModulesAllAliasesRelative = {
   console: "console-browserify",
   // constants: "constants-browserify",
   crypto: "crypto-browserify",
-  events: "cloudflare-workers-node-compat/events",
-  fs: "cloudflare-workers-node-compat/fs",
+  events: "cloudflare-workers-compat/events",
+  fs: "cloudflare-workers-compat/fs",
   // http: "stream-http",
   // https: "stream-http",
   // net: "net-browserify",
   os: "os-browserify/browser",
   path: "path-browserify",
-  process: "cloudflare-workers-node-compat/process",
+  process: "cloudflare-workers-compat/process",
   querystring: "qs",
   stream: "stream-browserify",
   // _stream_duplex: "readable-stream/duplex",
@@ -44,12 +44,12 @@ const nodeBuiltinModulesAllAliasesRelative = {
   // _stream_readable: "readable-stream/readable",
   // _stream_transform: "readable-stream/transform",
   // _stream_writable: "readable-stream/writable",
-  string_decoder: "cloudflare-workers-node-compat/string_decoder",
+  string_decoder: "cloudflare-workers-compat/string_decoder",
   // sys: "util",
-  timers: "cloudflare-workers-node-compat/timers",
-  tty: "cloudflare-workers-node-compat/tty",
+  timers: "cloudflare-workers-compat/timers",
+  tty: "cloudflare-workers-compat/tty",
   url: "url-shim",
-  util: "cloudflare-workers-node-compat/util",
+  util: "cloudflare-workers-compat/util",
   // vm: "vm-browserify",
   // zlib: "browserify-zlib"
 };
@@ -75,7 +75,7 @@ export const nodeBuiltinModulesAliases = (
     );
   }
   const aliases = resolveAliases(aliasesRelative, (spec) => {
-    if (spec.startsWith("cloudflare-workers-node-compat")) {
+    if (spec.startsWith("cloudflare-workers-compat")) {
       return require.resolve(spec);
     } else {
       return resolve.sync(spec, {
@@ -116,8 +116,8 @@ const applyPartial = async (p: string, config: BundlerConfig) => {
   if (partial.inject) config.inject.push(partial.inject);
 };
 
-const bundlerConfig = async (options: BundlerConfigGenerateOptions) => {
-  const config = {
+const generateBundlerConfig = async (options: BundlerConfigGenerateOptions) => {
+  const config: BundlerConfig = {
     aliases: {},
     inject: [],
     define: {
@@ -178,4 +178,4 @@ const bundlerConfig = async (options: BundlerConfigGenerateOptions) => {
   return config;
 };
 
-export default bundlerConfig;
+export default generateBundlerConfig;
