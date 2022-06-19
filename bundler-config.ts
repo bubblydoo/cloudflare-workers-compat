@@ -117,7 +117,7 @@ const generateBundlerConfig = async (options: BundlerConfigGenerateOptions) => {
     aliases: {},
     inject: [],
     define: {
-      CF_WORKER_COMPAT_ON_INCOMPATIBLE: `"${options.onIncompatible}"`,
+      CF_WORKER_COMPAT_ON_INCOMPATIBLE: `"${options.onIncompatible || 'ignore'}"`,
     },
     replaces: {},
   };
