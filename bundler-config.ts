@@ -92,11 +92,7 @@ const resolvePartial = async (p: string) => {
 
   try {
     inject = currentFileRequire.resolve(`./lib/${p}/inject.js`);
-  } catch (e) {
-    console.log();
-  }
-
-  console.log(inject);
+  } catch (e) {}
 
   return {
     define: await import(`./lib/${p}/define.js`)
