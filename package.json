@@ -12,13 +12,6 @@
     "lib/node-builtin-modules/*/dist/mod-cf.mjs"
   ],
   "exports": {
-    "./events": "./lib/node-builtin-modules/events/dist/mod-cf.mjs",
-    "./fs": "./lib/node-builtin-modules/fs/dist/mod-cf.mjs",
-    "./process": "./lib/node-builtin-modules/process/dist/mod-cf.mjs",
-    "./string_decoder": "./lib/node-builtin-modules/string_decoder/dist/mod-cf.mjs",
-    "./timers": "./lib/node-builtin-modules/timers/dist/mod-cf.mjs",
-    "./tty": "./lib/node-builtin-modules/tty/dist/mod-cf.mjs",
-    "./util": "./lib/node-builtin-modules/util/dist/mod-cf.mjs",
     "./bundler-config": {
       "default": "./build/bundler-config.js",
       "types": "./build/bundler-config.d.ts"
@@ -26,6 +19,21 @@
     "./esbuild": {
       "default": "./build/bundler-helpers/esbuild/index.js",
       "types": "./build/bundler-helpers/esbuild/index.d.ts"
+    },
+    "./node-builtin-modules/events": "./lib/node-builtin-modules/events/dist/mod-cf.mjs",
+    "./node-builtin-modules/fs": "./lib/node-builtin-modules/fs/dist/mod-cf.mjs",
+    "./node-builtin-modules/process": "./lib/node-builtin-modules/process/dist/mod-cf.mjs",
+    "./node-builtin-modules/string_decoder": "./lib/node-builtin-modules/string_decoder/dist/mod-cf.mjs",
+    "./node-builtin-modules/timers": "./lib/node-builtin-modules/timers/dist/mod-cf.mjs",
+    "./node-builtin-modules/tty": "./lib/node-builtin-modules/tty/dist/mod-cf.mjs",
+    "./node-builtin-modules/util": "./lib/node-builtin-modules/util/dist/mod-cf.mjs",
+    "./node-globals/buffer-class": {
+      "default": "./build/lib/node-globals/buffer-class/export.js",
+      "types": "./build/lib/node-globals/buffer-class/export.d.ts"
+    },
+    "./node-globals/process": {
+      "default": "./build/lib/node-globals/process/export.js",
+      "types": "./build/lib/node-globals/process/export.d.ts"
     }
   },
   "dependencies": {
