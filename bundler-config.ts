@@ -11,6 +11,7 @@ export interface BundlerConfigGenerateOptions {
   };
   denoGlobals?: boolean | ("add-event-listener" | "remove-event-listener")[];
   workerIncompatibles?: boolean | ("eval" | "function-constructor")[];
+  browserGlobals?: boolean | ("navigator")[];
   onIncompatible?: "ignore" | "warn" | "throw";
 }
 
@@ -156,6 +157,16 @@ const generateBundlerConfig = async (options: BundlerConfigGenerateOptions) => {
       (x) => denoGlobals === true || denoGlobals.includes(x as any)
     )) {
       await applyPartial(`deno-globals/${denoGlobal}`, config);
+    }
+  }
+
+  if (options.browserGlobals) {
+    const def = ["navigator"];
+    const browserGlobals = options.browserGlobals;
+    for (const browserGlobal of def.filter(
+      (x) => browserGlobals === true || browserGlobals.includes(x as any)
+    )) {
+      await applyPartial(`browser-globals/${browserGlobal}`, config);
     }
   }
 

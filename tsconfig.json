@@ -14,6 +14,7 @@
     "lib/deno-object/**/*",
     "lib/deno-globals/**/*",
     "lib/worker-incompatibles/**/*",
+    "lib/browser-globals/**/*",
     "bundler-config.ts",
     "warn-or-throw-incompatible.ts",
     "bundler-helpers/**/*"
