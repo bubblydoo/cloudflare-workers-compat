@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 export interface BundlerConfigGenerateOptions {
   nodeBuiltinModules?: boolean | NodeBuiltinModuleName[];
-  nodeGlobals?: boolean | ("process" | "process-class")[];
+  nodeGlobals?: boolean | ("process" | "process-class" | "buffer-class")[];
   denoObject?: {
     attributes: boolean;
     global: boolean | "empty-object";
@@ -131,7 +131,7 @@ const generateBundlerConfig = async (options: BundlerConfigGenerateOptions) => {
   }
 
   if (options.nodeGlobals) {
-    const def = ["global", "process-class", "process"];
+    const def = ["global", "process-class", "process", "buffer-class"];
     const nodeGlobals = options.nodeGlobals;
     for (const nodeGlobal of def.filter(
       (x) => nodeGlobals === true || nodeGlobals.includes(x as any)
