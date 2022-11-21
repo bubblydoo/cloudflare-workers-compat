@@ -26,7 +26,7 @@ import { outputReplacesPlugin, aliasPlugin } from "cloudflare-workers-compat/esb
 const compatConfig = await bundlerConfig({
   nodeBuiltinModules: true, // replaces node builtins like `assert`, `util`, ...
   nodeGlobals: true, // replaces Node globals like `global`
-  workerIncompatibles: true // replaces `eval` and `new Function` with warning functions
+  workerIncompatibles: true, // replaces `eval` and `new Function` with warning functions
   browserGlobals: true, // replaces browser globals like `navigator`
 });
 
