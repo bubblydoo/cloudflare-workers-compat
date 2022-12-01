@@ -1,9 +1,8 @@
 import { warnOrThrowIncompatible } from "../../../warn-or-throw-incompatible.js";
 
-const __CF_COMPAT_Function__ = "%CF_COMPAT_Function%";
 const __CF_COMPAT_Functiondotprototype__ = "%CF_COMPAT_Function.prototype%";
 
-const workerCompat_functionConstructor = (name: string) => {
+function workerCompat_functionConstructor(name: string)  {
   warnOrThrowIncompatible('new Function', [name]);
 
   return () => {
