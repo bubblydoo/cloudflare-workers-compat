@@ -19,7 +19,6 @@ To use it, use esbuild:
 ```ts
 // build.mjs
 
-import alias from "esbuild-plugin-alias";
 import bundlerConfig from "cloudflare-workers-compat/bundler-config";
 import { outputReplacesPlugin, aliasPlugin } from "cloudflare-workers-compat/esbuild";
 
