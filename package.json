@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-workers-compat",
-  "version": "0.1.8",
+  "version": "0.1.12",
   "sideEffects": false,
   "type": "module",
   "scripts": {
@@ -34,6 +34,10 @@
     "./node-globals/process": {
       "default": "./build/lib/node-globals/process/export.js",
       "types": "./build/lib/node-globals/process/export.d.ts"
+    },
+    "./build/*": {
+      "default": "./build/*.js",
+      "types": "./build/*.d.ts"
     }
   },
   "dependencies": {

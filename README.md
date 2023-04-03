@@ -55,7 +55,7 @@ Shims are included for:
 - `querystring` (through `qs`)
 - `stream` (through `stream-browserify`)
 - `string_decoder` (through `https://deno.land/std/node/string_decoder.ts`)
-- `timers` (empty object)
+- `timers` (exports `setTimeout`, `clearTimeout`, `setInterval`, `clearInterval`)
 - `tty` (through `https://deno.land/std/node/tty.ts`)
 - `url` (through `url-shim`)
 - `util` (through `https://deno.land/std/node/util.ts`)
