@@ -11,7 +11,7 @@ export interface BundlerConfigGenerateOptions {
   };
   denoGlobals?: boolean | ("add-event-listener" | "remove-event-listener")[];
   workerIncompatibles?: boolean | ("eval" | "function-constructor")[];
-  browserGlobals?: boolean | ("navigator")[];
+  browserGlobals?: boolean | "navigator"[];
   onIncompatible?: "ignore" | "warn" | "throw";
 }
 
@@ -45,7 +45,8 @@ const nodeBuiltinModulesAllAliasesRelative = {
   // _stream_readable: "readable-stream/readable",
   // _stream_transform: "readable-stream/transform",
   // _stream_writable: "readable-stream/writable",
-  string_decoder: "cloudflare-workers-compat/node-builtin-modules/string_decoder",
+  string_decoder:
+    "cloudflare-workers-compat/node-builtin-modules/string_decoder",
   // sys: "util",
   timers: "cloudflare-workers-compat/node-builtin-modules/timers",
   tty: "cloudflare-workers-compat/node-builtin-modules/tty",
@@ -75,7 +76,7 @@ export const nodeBuiltinModulesAliases = (
       )
     );
   }
-  const aliases = resolveAliases(aliasesRelative, (spec) => {
+  const aliasesUnprefixed = resolveAliases(aliasesRelative, (spec) => {
     if (spec.startsWith("cloudflare-workers-compat")) {
       return require.resolve(spec);
     } else {
@@ -85,6 +86,14 @@ export const nodeBuiltinModulesAliases = (
       });
     }
   });
+  const aliases = Object.fromEntries(
+    Object.entries(aliasesUnprefixed)
+      .map(([k, v]) => [
+        [k, v], // e.g. buffer
+        [`node:${k}`, v], // e.g. node:buffer
+      ])
+      .flat()
+  );
   return aliases;
 };
 
@@ -118,7 +127,9 @@ const generateBundlerConfig = async (options: BundlerConfigGenerateOptions) => {
     aliases: {},
     inject: [],
     define: {
-      CF_WORKER_COMPAT_ON_INCOMPATIBLE: `"${options.onIncompatible || 'ignore'}"`,
+      CF_WORKER_COMPAT_ON_INCOMPATIBLE: `"${
+        options.onIncompatible || "ignore"
+      }"`,
     },
     replaces: {},
   };
