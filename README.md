@@ -20,13 +20,14 @@ To use it, use esbuild:
 // build.mjs
 
 import bundlerConfig from "cloudflare-workers-compat/bundler-config";
-import { outputReplacesPlugin, aliasPlugin } from "cloudflare-workers-compat/esbuild";
+import { aliasPlugin, outputReplacesPlugin, aliasWithPrefixPlugin } from "cloudflare-workers-compat/esbuild";
 
 const compatConfig = await bundlerConfig({
   nodeBuiltinModules: true, // replaces node builtins like `assert`, `util`, ...
   nodeGlobals: true, // replaces Node globals like `global`
   workerIncompatibles: true, // replaces `eval` and `new Function` with warning functions
   browserGlobals: true, // replaces browser globals like `navigator`
+  workersNodejsCompat: true, // keeps node modules external and prefixes them with `node:`, when the "nodejs_compat" compatibility flag is enabled
 });
 
 await build({
@@ -34,9 +35,11 @@ await build({
   metafile: true,
   define: compatConfig.define,
   inject: compatConfig.inject,
+  externals: compatConfig.externals,
   plugins: [
     aliasPlugin(compatConfig.aliases),
     outputReplacesPlugin(compatConfig.replaces)
+    aliasWithPrefixPlugin(compatConfig.aliasWithPrefix)
   ]
 });
 ```

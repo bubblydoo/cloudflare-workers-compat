@@ -3,7 +3,7 @@ import { createRequire } from "module";
 import { fileURLToPath } from "url";
 
 export interface BundlerConfigGenerateOptions {
-  nodeBuiltinModules?: boolean | NodeBuiltinModuleName[];
+  nodeBuiltinModules?: boolean | NodeBuiltinModuleNameAliasable[];
   nodeGlobals?: boolean | ("process" | "process-class" | "buffer-class")[];
   denoObject?: {
     attributes: boolean;
@@ -13,6 +13,9 @@ export interface BundlerConfigGenerateOptions {
   workerIncompatibles?: boolean | ("eval" | "function-constructor")[];
   browserGlobals?: boolean | "navigator"[];
   onIncompatible?: "ignore" | "warn" | "throw";
+  externalNodeBuiltinModules?: NodeBuiltinModuleName[];
+  prefixExternalNodeBuiltinModules?: boolean;
+  workersNodejsCompat?: boolean;
 }
 
 interface BundlerConfig {
@@ -20,6 +23,8 @@ interface BundlerConfig {
   inject: string[];
   define: Record<string, string>;
   replaces: Record<string, string>;
+  externals: string[];
+  aliasWithPrefix: Record<string, string[]>;
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -56,7 +61,30 @@ const nodeBuiltinModulesAllAliasesRelative = {
   // zlib: "browserify-zlib"
 };
 
-type NodeBuiltinModuleName = keyof typeof nodeBuiltinModulesAllAliasesRelative;
+const workersNodejsCompatBuiltinModules = [
+  "assert",
+  "async_hooks",
+  "buffer",
+  "crypto",
+  "diagnostics_channel",
+  "events",
+  "path",
+  "process",
+  "stream",
+  "stream/promises",
+  "stream/web",
+  "stream/consumers",
+  "string_decoder",
+  "util",
+] as const;
+
+type NodeBuiltinModuleNameAliasable =
+  keyof typeof nodeBuiltinModulesAllAliasesRelative;
+type NodeBuiltinModuleNameWithWorkersNodejsCompat =
+  (typeof workersNodejsCompatBuiltinModules)[number];
+type NodeBuiltinModuleName =
+  | NodeBuiltinModuleNameAliasable
+  | NodeBuiltinModuleNameWithWorkersNodejsCompat;
 
 export const resolveAliases = (aliases, resolve) =>
   Object.fromEntries(Object.entries(aliases).map(([k, v]) => [k, resolve(v)]));
@@ -65,14 +93,18 @@ const require = createRequire(import.meta.url);
 const currentFileRequire = createRequire(__filename);
 
 export const nodeBuiltinModulesAliases = (
-  moduleNames?: NodeBuiltinModuleName[]
+  moduleNames: NodeBuiltinModuleNameAliasable[],
+  externals?: NodeBuiltinModuleName[]
 ) => {
-  let aliasesRelative: Record<string, string> =
-    nodeBuiltinModulesAllAliasesRelative;
-  if (moduleNames) {
+  let aliasesRelative = Object.fromEntries(
+    Object.entries(nodeBuiltinModulesAllAliasesRelative).filter(([k]) =>
+      (moduleNames as string[]).includes(k)
+    )
+  );
+  if (externals) {
     aliasesRelative = Object.fromEntries(
-      Object.entries(aliasesRelative).filter(([k]) =>
-        (moduleNames as string[]).includes(k)
+      Object.entries(aliasesRelative).filter(
+        ([k]) => !(externals as string[]).includes(k)
       )
     );
   }
@@ -132,13 +164,50 @@ const generateBundlerConfig = async (options: BundlerConfigGenerateOptions) => {
       }"`,
     },
     replaces: {},
+    externals: [],
+    aliasWithPrefix: {},
   };
 
+  let externalNodejsModules = options.externalNodeBuiltinModules || [];
+  let prefixExternalNodeBuiltinModules= options.prefixExternalNodeBuiltinModules || false;
+
+  if (options.workersNodejsCompat) {
+    externalNodejsModules = [
+      ...externalNodejsModules,
+      // from https://developers.cloudflare.com/workers/runtime-apis/nodejs/
+      "assert",
+      "async_hooks",
+      "buffer",
+      "crypto",
+      "diagnostics_channel",
+      "events",
+      "path",
+      "process",
+      "stream",
+      "stream/promises",
+      "stream/consumers",
+      "string_decoder",
+      "util",
+    ];
+    prefixExternalNodeBuiltinModules = true;
+  }
+
+  config.externals = externalNodejsModules.map((x) => `node:${x}`);
+  if (prefixExternalNodeBuiltinModules) {
+    config.aliasWithPrefix["node"] = externalNodejsModules;
+  }
+
   if (options.nodeBuiltinModules) {
-    config.aliases =
+    const moduleNames =
       options.nodeBuiltinModules === true
-        ? nodeBuiltinModulesAliases()
-        : nodeBuiltinModulesAliases(options.nodeBuiltinModules);
+        ? (Object.keys(
+            nodeBuiltinModulesAllAliasesRelative
+          ) as NodeBuiltinModuleNameAliasable[])
+        : options.nodeBuiltinModules;
+    config.aliases = nodeBuiltinModulesAliases(
+      moduleNames,
+      externalNodejsModules
+    );
   }
 
   if (options.nodeGlobals) {
