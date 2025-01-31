@@ -1,8 +1,8 @@
 # Cloudflare Workers Compat
 
 > [!IMPORTANT]
-> This module is probably not needed anymore, because of [node_compat_v2](https://developers.cloudflare.com/workers/runtime-apis/nodejs/)
-> It might still be useful to fix edge-cases.
+> The shims in this module are probably not needed anymore, because of [node_compat_v2](https://developers.cloudflare.com/workers/runtime-apis/nodejs/).
+> It might still be useful to set up esbuild externals, or to fix edge-cases.
 
 This module is highly experimental, and incomplete.
 
