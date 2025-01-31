@@ -1,5 +1,9 @@
 # Cloudflare Workers Compat
 
+> [!IMPORTANT]
+> This module is probably not needed anymore, because of [node_compat_v2](https://developers.cloudflare.com/workers/runtime-apis/nodejs/)
+> It might still be useful to fix edge-cases.
+
 This module is highly experimental, and incomplete.
 
 The goal is to provide shim modules for every builtin Node module, so that you can use existing Node code in Cloudflare Workers.
@@ -34,7 +38,7 @@ const compatConfig = await bundlerConfig({
   browserGlobals: true,
   // keeps supported node modules external and prefixes them with `node:`,
   // for when the "nodejs_compat" compatibility flag is enabled
-  workersNodejsCompat: true,
+  workersNodejsCompatV2: true,
 });
 
 await build({

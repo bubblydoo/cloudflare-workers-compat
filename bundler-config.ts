@@ -16,6 +16,7 @@ export interface BundlerConfigGenerateOptions {
   externalNodeBuiltinModules?: NodeBuiltinModuleName[];
   prefixExternalNodeBuiltinModules?: boolean;
   workersNodejsCompat?: boolean;
+  workersNodejsCompatV2?: boolean;
 }
 
 interface BundlerConfig {
@@ -78,13 +79,66 @@ const workersNodejsCompatBuiltinModules = [
   "util",
 ] as const;
 
+// from https://workers-nodejs-compat-matrix.pages.dev/
+const workersNodejsCompatBuiltinModulesV2 = [
+  "assert",
+  "assert/strict",
+  "async_hooks",
+  "buffer",
+  "child_process",
+  "cluster",
+  "console",
+  "constants",
+  "crypto",
+  "dgram",
+  "diagnostics_channel",
+  "dns",
+  "dns/promises",
+  "domain",
+  "events",
+  "fs",
+  "fs/promises",
+  "http",
+  "http2",
+  "https",
+  "inspector",
+  "inspector/promises",
+  "module",
+  "net",
+  "os",
+  "path",
+  "path/posix",
+  "path/win32",
+  "perf_hooks",
+  "process",
+  "punycode",
+  "querystring",
+  "readline",
+  "readline/promises",
+  "repl",
+  "stream",
+  "stream/consumers",
+  "stream/promises",
+  "stream/web",
+  "string_decoder",
+  "sys",
+  "timers",
+  "timers/promises",
+  "tls",
+  "trace_events",
+  "tty",
+  "url"
+] as const;
+
 type NodeBuiltinModuleNameAliasable =
   keyof typeof nodeBuiltinModulesAllAliasesRelative;
 type NodeBuiltinModuleNameWithWorkersNodejsCompat =
   (typeof workersNodejsCompatBuiltinModules)[number];
+type NodeBuiltinModuleNameWithWorkersNodejsCompatV2 =
+  (typeof workersNodejsCompatBuiltinModulesV2)[number];
 type NodeBuiltinModuleName =
   | NodeBuiltinModuleNameAliasable
-  | NodeBuiltinModuleNameWithWorkersNodejsCompat;
+  | NodeBuiltinModuleNameWithWorkersNodejsCompatV2;
 
 export const resolveAliases = (aliases, resolve) =>
   Object.fromEntries(Object.entries(aliases).map(([k, v]) => [k, resolve(v)]));
@@ -174,20 +228,14 @@ const generateBundlerConfig = async (options: BundlerConfigGenerateOptions) => {
   if (options.workersNodejsCompat) {
     externalNodejsModules = [
       ...externalNodejsModules,
-      // from https://developers.cloudflare.com/workers/runtime-apis/nodejs/
-      "assert",
-      "async_hooks",
-      "buffer",
-      "crypto",
-      "diagnostics_channel",
-      "events",
-      "path",
-      "process",
-      "stream",
-      "stream/promises",
-      "stream/consumers",
-      "string_decoder",
-      "util",
+      ...workersNodejsCompatBuiltinModules,
+    ];
+    prefixExternalNodeBuiltinModules = true;
+  }
+  if (options.workersNodejsCompatV2) {
+    externalNodejsModules = [
+      ...externalNodejsModules,
+      ...workersNodejsCompatBuiltinModulesV2,
     ];
     prefixExternalNodeBuiltinModules = true;
   }
